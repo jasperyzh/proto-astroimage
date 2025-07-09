@@ -1,16 +1,302 @@
 ---
-
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
+<BaseLayout title="Astro Image Playground">
+  <p class="lead">
+    This project demonstrates Astro's powerful image optimization features through practical examples. 
+    Learn the differences between <code>src/assets</code> and <code>public/</code>, explore best practices 
+    for accessibility and performance, and see how to handle various image scenarios.
+  </p>
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+  <h2>🎯 What You'll Learn</h2>
+  <ul class="feature-list">
+    <li>✨ <strong>astro:assets</strong> - Astro's native image optimization system</li>
+    <li>📁 <strong>src/assets vs public/</strong> - When to use processed vs unprocessed images</li>
+    <li>♿ <strong>Accessibility</strong> - Proper alt text, CLS prevention, and responsive images</li>
+    <li>🚀 <strong>Performance</strong> - Modern formats (WebP, AVIF) and lazy loading</li>
+    <li>📄 <strong>Content Integration</strong> - Images in Markdown, MDX, and Content Collections</li>
+    <li>🗂️ <strong>External Content</strong> - Handling Obsidian-style markdown and assets</li>
+  </ul>
+
+  <h2>📚 Examples & Demonstrations</h2>
+  <div class="example-grid">
+    <div class="example-card">
+      <h3>
+        <a href="/01_local-images">Local Images (src/assets)</a>
+        <span class="feature-badge">Optimized</span>
+      </h3>
+      <p>Explore Astro's <code>Image</code> and <code>Picture</code> components with local assets. See automatic optimization, format conversion, and responsive image generation.</p>
+      <ul class="tech-list">
+        <li>Image & Picture components</li>
+        <li>getImage() utility function</li>
+        <li>Framework component integration</li>
+      </ul>
+    </div>
+
+    <div class="example-card">
+      <h3>
+        <a href="/02_remote-images">Remote Images</a>
+        <span class="feature-badge">Comparison</span>
+      </h3>
+      <p>Compare optimized vs unoptimized remote images. Learn about domain authorization and security considerations for remote image processing.</p>
+      <ul class="tech-list">
+        <li>Authorized vs unauthorized domains</li>
+        <li>astro.config.mjs configuration</li>
+        <li>Security implications</li>
+      </ul>
+    </div>
+
+    <div class="example-card">
+      <h3>
+        <a href="/03_markdown">Images in Markdown</a>
+        <span class="feature-badge">Simple</span>
+      </h3>
+      <p>Standard Markdown image syntax with Astro's automatic processing. Perfect for blog posts and documentation.</p>
+      <ul class="tech-list">
+        <li>Markdown image syntax</li>
+        <li>Automatic asset processing</li>
+        <li>Layout integration</li>
+      </ul>
+    </div>
+
+    <div class="example-card">
+      <h3>
+        <a href="/04_mdx-component">MDX Components</a>
+        <span class="feature-badge">Advanced</span>
+      </h3>
+      <p>Combine Markdown with Astro components for maximum flexibility. Use both syntax types in the same file.</p>
+      <ul class="tech-list">
+        <li>MDX integration</li>
+        <li>Component imports</li>
+        <li>Mixed syntax usage</li>
+      </ul>
+    </div>
+
+    <div class="example-card">
+      <h3>
+        <a href="/05_collections">Content Collections</a>
+        <span class="feature-badge">Structured</span>
+      </h3>
+      <p>Type-safe images in frontmatter with schema validation. Perfect for CMS-style content management.</p>
+      <ul class="tech-list">
+        <li>Schema validation</li>
+        <li>Type safety</li>
+        <li>Frontmatter images</li>
+      </ul>
+    </div>
+
+    <div class="example-card">
+      <h3>
+        <a href="/06_obsidian-content">Obsidian Integration</a>
+        <span class="feature-badge">External</span>
+      </h3>
+      <p>Handle external markdown content and assets from tools like Obsidian. Demonstrates public/ directory usage.</p>
+      <ul class="tech-list">
+        <li>External content</li>
+        <li>Public assets</li>
+        <li>Migration strategies</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>🔧 Key Astro Features Demonstrated</h2>
+  <div class="feature-comparison">
+    <div class="feature-section">
+      <h3>astro:assets (Recommended)</h3>
+      <ul class="feature-benefits">
+        <li>✅ Automatic optimization</li>
+        <li>✅ Modern format conversion (WebP, AVIF)</li>
+        <li>✅ Responsive image generation</li>
+        <li>✅ CLS prevention</li>
+        <li>✅ Lazy loading by default</li>
+        <li>✅ Alt text enforcement</li>
+      </ul>
+    </div>
+    <div class="feature-section">
+      <h3>public/ Directory</h3>
+      <ul class="feature-limitations">
+        <li>❌ No automatic optimization</li>
+        <li>❌ No format conversion</li>
+        <li>❌ Manual responsive handling</li>
+        <li>❌ Manual CLS prevention</li>
+        <li>❌ Manual lazy loading</li>
+        <li>✅ Direct URL access</li>
+        <li>✅ External content compatibility</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Glossary</h2>
+  <dl class="glossary-list">
+    <dt>astro:assets</dt>
+    <dd>
+      Astro's built-in image optimization system that automatically processes images from the <code>src/assets</code> directory. 
+      It provides format conversion (WebP, AVIF), responsive image generation, and automatic optimization without requiring external tools.
+    </dd>
+
+    <dt>Alt Text</dt>
+    <dd>
+      Alternative text that describes an image's content for screen readers and accessibility tools. 
+      Astro's Image component enforces alt text to ensure better accessibility. Good alt text is descriptive but concise.
+    </dd>
+
+    <dt>CLS Prevention</dt>
+    <dd>
+      CLS (Cumulative Layout Shift) prevention involves techniques to stop unexpected movement of page content as it loads. 
+      This is a key part of Core Web Vitals, Google's metrics for a healthy site. 
+      Common causes of CLS include images or ads loading without their dimensions specified, 
+      web fonts causing text to reflow, or content being dynamically injected without reserving space. 
+      Preventing CLS ensures a smoother, less frustrating experience for users by keeping the layout stable.
+    </dd>
+
+    <dt>Content Collections</dt>
+    <dd>
+      Astro's built-in content management system that provides type-safe handling of markdown files and frontmatter data. 
+      Useful for blogs, documentation, or any structured content with images defined in frontmatter.
+    </dd>
+
+    <dt>Image Optimization</dt>
+    <dd>
+      The process of reducing image file sizes while maintaining visual quality. 
+      Astro automatically handles this through format conversion, compression, and generating multiple sizes for responsive design.
+    </dd>
+
+    <dt>Lazy Loading</dt>
+    <dd>
+      A technique where images are only loaded when they're about to enter the viewport (become visible to the user). 
+      This improves initial page load times by deferring non-critical image downloads. Astro enables this by default for optimized images.
+    </dd>
+
+    <dt>MDX</dt>
+    <dd>
+      Markdown with JSX/component support. Allows you to import and use Astro components directly within markdown files, 
+      providing more flexibility than plain markdown while maintaining readability.
+    </dd>
+
+    <dt>Public Directory</dt>
+    <dd>
+      The <code>public/</code> folder in Astro projects where static assets are stored. 
+      Files here are served as-is without processing or optimization, making them suitable for favicons, robots.txt, or external content integration.
+    </dd>
+
+    <dt>Responsive Images</dt>
+    <dd>
+      Images that automatically adapt to different screen sizes and resolutions. 
+      Astro's Picture component generates multiple image sizes and formats, allowing browsers to choose the most appropriate version.
+    </dd>
+
+    <dt>srcset</dt>
+    <dd>
+      An HTML attribute that provides multiple image sources at different resolutions, 
+      allowing browsers to choose the best image based on screen size and pixel density. Astro generates this automatically.
+    </dd>
+
+    <dt>WebP & AVIF</dt>
+    <dd>
+      Modern image formats that provide better compression than traditional JPEG/PNG while maintaining quality. 
+      WebP is widely supported, while AVIF offers even better compression but with newer browser support. Astro can automatically convert images to these formats.
+    </dd>
+
+    <!-- Add more terms here as needed -->
+  </dl>
+
+  <style>
+    .lead {
+      font-size: 1.125rem;
+      color: #475569;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    .feature-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 1.0625rem;
+    }
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .example-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.5rem;
+      background-color: white;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .example-card:hover {
+      border-color: #3b82f6;
+      box-shadow: 0 4px 12px rgb(59 130 246 / 0.15);
+    }
+    .example-card h3 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .example-card p {
+      color: #64748b;
+      margin-bottom: 1rem;
+    }
+    .tech-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .tech-list li {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-bottom: 0.25rem;
+      padding-left: 1rem;
+      position: relative;
+    }
+    .tech-list li::before {
+      content: "•";
+      color: #3b82f6;
+      position: absolute;
+      left: 0;
+    }
+    .feature-comparison {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    .feature-section {
+      padding: 1.5rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      background-color: #fafafa;
+    }
+    .feature-benefits li, .feature-limitations li {
+      padding: 0.25rem 0;
+      font-size: 0.9375rem;
+    }
+    .feature-benefits {
+      list-style: none;
+      padding: 0;
+    }
+    .feature-limitations {
+      list-style: none;
+      padding: 0;
+    }
+    /* Add styles for the glossary */
+    .glossary-list dt {
+      font-weight: bold;
+      margin-top: 1rem;
+      font-size: 1.1em;
+    }
+    .glossary-list dd {
+      margin-left: 0;
+      margin-bottom: 1rem;
+      color: #475569;
+      line-height: 1.7;
+    }
+  </style>
+</BaseLayout>

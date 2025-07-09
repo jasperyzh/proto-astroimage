@@ -1,0 +1,339 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+---
+<BaseLayout title="Content Collections & Images">
+  <p class="intro">
+    Content Collections provide type-safe, schema-validated content management in Astro. This page demonstrates how images work within the Content Collections system for structured content like blogs, portfolios, or documentation.
+  </p>
+
+  <h2>Content Collections Overview <span class="feature-badge">Type-Safe</span></h2>
+  <p>Content Collections allow you to define schemas for your content, including image validation and processing. This is perfect for CMS-style workflows where you need consistent image handling across your content.</p>
+
+  <div class="feature-showcase">
+    <h3>Key Benefits:</h3>
+    <ul>
+      <li>🔒 <strong>Type Safety:</strong> TypeScript validation for all image properties</li>
+      <li>📋 <strong>Schema Validation:</strong> Ensure images meet your requirements</li>
+      <li>🖼️ <strong>Image Optimization:</strong> Automatic processing of frontmatter images</li>
+      <li>📁 <strong>Organization:</strong> Structured content with consistent image handling</li>
+      <li>🔄 <strong>Build-time Processing:</strong> Images processed during build for optimal performance</li>
+    </ul>
+  </div>
+
+  <h2>Setting Up Content Collections for Images</h2>
+
+  <div class="code-example">
+    <h3>1. Define Collection Schema</h3>
+    <pre><code>{`// src/content/config.ts
+import { defineCollection, z } from 'astro:content';
+
+const blogCollection = defineCollection({
+  type: 'content',
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    // Use image() helper for type-safe image handling
+    coverImage: image(),
+    coverImageAlt: z.string(),
+    publishDate: z.date(),
+    tags: z.array(z.string()).optional(),
+  }),
+});
+
+export const collections = {
+  'blog': blogCollection,
+};`}</code></pre>
+  </div>
+
+  <div class="code-example">
+    <h3>2. Create Content with Frontmatter Images</h3>
+    <pre><code>{`---
+# src/content/blog/my-post.md
+title: "My Amazing Blog Post"
+description: "A post about image optimization"
+coverImage: ../../assets/local-dog.jpg
+coverImageAlt: "A beautiful dog in a field"
+publishDate: 2024-01-15
+tags: ["astro", "images", "optimization"]
+---
+
+# My Amazing Blog Post
+
+Content goes here with automatic image processing for the cover image!
+
+You can also use regular markdown images in the content body:
+![Additional image](../../assets/local-bird.png)`}</code></pre>
+  </div>
+
+  <div class="code-example">
+    <h3>3. Use Collections in Pages</h3>
+    <pre><code>{`---
+// src/pages/blog/[...slug].astro
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const blogPosts = await getCollection('blog');
+  return blogPosts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+<BaseLayout title={post.data.title}>
+  <!-- Optimized cover image from frontmatter -->
+  <Image 
+    src={post.data.coverImage} 
+    alt={post.data.coverImageAlt}
+    width={800}
+    height={400}
+    format="webp"
+  />
+  <Content />
+</BaseLayout>`}</code></pre>
+  </div>
+
+  <h2>Advanced Collection Patterns</h2>
+
+  <div class="pattern-grid">
+    <div class="pattern-card">
+      <h3>Gallery Collections</h3>
+      <pre><code>{`const galleryCollection = defineCollection({
+  type: 'content',
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    images: z.array(z.object({
+      src: image(),
+      alt: z.string(),
+      caption: z.string().optional()
+    }))
+  })
+});`}</code></pre>
+      <p>Perfect for photo galleries or portfolio collections.</p>
+    </div>
+
+    <div class="pattern-card">
+      <h3>Product Collections</h3>
+      <pre><code>{`const productCollection = defineCollection({
+  type: 'data',
+  schema: ({ image }) => z.object({
+    name: z.string(),
+    price: z.number(),
+    heroImage: image(),
+    thumbnails: z.array(image()),
+    category: z.string()
+  })
+});`}</code></pre>
+      <p>E-commerce or catalog sites with product images.</p>
+    </div>
+
+    <div class="pattern-card">
+      <h3>Team Collections</h3>
+      <pre><code>{`const teamCollection = defineCollection({
+  type: 'data',
+  schema: ({ image }) => z.object({
+    name: z.string(),
+    role: z.string(),
+    avatar: image(),
+    bio: z.string()
+  })
+});`}</code></pre>
+      <p>Team member profiles with headshot images.</p>
+    </div>
+  </div>
+
+  <h2>Collection Image Best Practices</h2>
+
+  <div class="best-practices">
+    <div class="practice">
+      <h3>📁 Organization</h3>
+      <ul>
+        <li>Keep collection content and images in <code>src/content/</code></li>
+        <li>Use descriptive image names</li>
+        <li>Group related images by collection</li>
+        <li>Consider image sizes for your use cases</li>
+      </ul>
+    </div>
+
+    <div class="practice">
+      <h3>🔒 Validation</h3>
+      <ul>
+        <li>Always include alt text validation</li>
+        <li>Define required vs optional images</li>
+        <li>Use TypeScript for compile-time checking</li>
+        <li>Validate image dimensions if needed</li>
+      </ul>
+    </div>
+
+    <div class="practice">
+      <h3>⚡ Performance</h3>
+      <ul>
+        <li>Optimize images at the source</li>
+        <li>Use appropriate formats for content type</li>
+        <li>Consider responsive image needs</li>
+        <li>Monitor build times with large collections</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Content vs Data Collections</h2>
+
+  <div class="comparison">
+    <div class="comparison-side">
+      <h3>Content Collections</h3>
+      <ul>
+        <li>✅ Markdown/MDX files</li>
+        <li>✅ Frontmatter + content body</li>
+        <li>✅ Built-in rendering</li>
+        <li>✅ Great for blogs, docs</li>
+        <li>✅ SEO-friendly URLs</li>
+      </ul>
+    </div>
+    <div class="comparison-side">
+      <h3>Data Collections</h3>
+      <ul>
+        <li>✅ JSON/YAML files</li>
+        <li>✅ Pure data structures</li>
+        <li>✅ Custom rendering logic</li>
+        <li>✅ Great for catalogs, APIs</li>
+        <li>✅ Flexible data schemas</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="demo-note">
+    <h3>🚧 Demo Note</h3>
+    <p>This page shows the concepts and code examples for Content Collections with images. To see a full working example, you would need to:</p>
+    <ol>
+      <li>Create <code>src/content/config.ts</code> with the schema definitions</li>
+      <li>Add markdown files with image frontmatter to <code>src/content/blog/</code></li>
+      <li>Create pages that query and render the collections</li>
+    </ol>
+    <p>The code examples above show exactly how to implement this pattern!</p>
+  </div>
+
+  <style>
+    .intro {
+      background-color: #f3e8ff;
+      border: 1px solid #a855f7;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      color: #6b21a8;
+    }
+    .feature-showcase {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+    .feature-showcase h3 {
+      margin-top: 0;
+      color: #475569;
+    }
+    .feature-showcase ul {
+      list-style: none;
+      padding: 0;
+    }
+    .feature-showcase li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .code-example {
+      margin: 2rem 0;
+    }
+    .code-example h3 {
+      color: #475569;
+      margin-bottom: 1rem;
+    }
+    .pattern-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .pattern-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.5rem;
+      background-color: #f8fafc;
+    }
+    .pattern-card h3 {
+      margin-top: 0;
+      color: #475569;
+    }
+    .pattern-card p {
+      color: #64748b;
+      font-size: 0.9375rem;
+    }
+    .best-practices {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .practice {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.5rem;
+      background-color: #f8fafc;
+    }
+    .practice h3 {
+      margin-top: 0;
+      color: #475569;
+    }
+    .practice ul {
+      list-style: disc;
+      padding-left: 1.5rem;
+    }
+    .practice li {
+      color: #64748b;
+      font-size: 0.9375rem;
+      margin-bottom: 0.25rem;
+    }
+    .comparison {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    .comparison-side {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.5rem;
+      background-color: #f8fafc;
+    }
+    .comparison-side h3 {
+      margin-top: 0;
+      color: #475569;
+    }
+    .comparison-side ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-side li {
+      padding: 0.25rem 0;
+      font-size: 0.9375rem;
+    }
+    .demo-note {
+      background-color: #fefce8;
+      border: 1px solid #fde047;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+    .demo-note h3 {
+      color: #a16207;
+      margin-top: 0;
+    }
+    .demo-note p, .demo-note ol {
+      color: #a16207;
+    }
+  </style>
+</BaseLayout> 

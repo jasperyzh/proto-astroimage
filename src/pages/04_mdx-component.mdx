@@ -1,0 +1,273 @@
+---
+layout: ../layouts/BaseLayout.astro
+title: Images in MDX (.mdx)
+---
+import { Image, Picture } from 'astro:assets';
+import localDog from '../assets/local-dog.jpg';
+import localBird from '../assets/local-bird.png';
+
+# Images in MDX (.mdx)
+
+MDX provides the flexibility to use both standard Markdown image syntax and Astro's powerful image components in the same file. This gives you the best of both worlds: simplicity when you need it, and advanced features when you want them.
+
+<div class="intro">
+⚡ <strong>MDX Power:</strong> Combine the simplicity of Markdown with the advanced features of Astro components. You can import images, use JSX syntax, and leverage Astro's optimization features all in one file.
+</div>
+
+## Standard Markdown Syntax 📝
+
+Works just like in `.md` files. Images from `src/assets` will be optimized automatically:
+
+![Local bird via Markdown](../assets/local-bird.png)
+
+![Public cat via Markdown](/public-cat.jpg)
+
+![Remote dog via Markdown](https://images.unsplash.com/photo-1583337130417-3346d0399f0e?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+
+<div class="note success">
+✅ <strong>Automatic optimization:</strong> Standard Markdown image syntax gets all the benefits of Astro's image processing when the images are from <code>src/assets</code>.
+</div>
+
+## Using Astro's Image Component in MDX 🖼️
+
+Import the component and your image assets in the frontmatter, then use them anywhere in your content:
+
+<div class="image-container">
+  <span class="image-label">Local image with Image component:</span>
+  <Image src={localDog} alt="A playful dog in MDX" width={400} />
+  
+  ```jsx
+  <Image src={localDog} alt="A playful dog in MDX" width={400} />
+  ```
+</div>
+
+<div class="image-container">
+  <span class="image-label">Public image with Image component:</span>
+  <Image src="/public-cat.jpg" alt="A public cat in MDX" width={200} height={200} />
+  
+  ```jsx
+  <Image src="/public-cat.jpg" alt="A public cat in MDX" width={200} height={200} />
+  ```
+</div>
+
+<div class="image-container">
+  <span class="image-label">Remote image with Image component:</span>
+  <Image src="https://images.unsplash.com/photo-1620117676627-749dec10ddcd?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Remote forest in MDX" width={600} height={600} />
+  
+  ```jsx
+  <Image src="https://images.unsplash.com/photo-1582236814285-d62f4c6e91f1?q=80..." alt="Remote forest in MDX" width={600} />
+  ```
+</div>
+
+## Using Picture Component for Responsive Images 📱
+
+The Picture component gives you maximum control over responsive images with multiple formats:
+
+<div class="image-container">
+  <span class="image-label">Picture component with multiple formats:</span>
+  <Picture
+    src={localBird}
+    formats={['avif', 'webp']}
+    alt="Responsive bird image"
+    sizes="(max-width: 600px) 480px, 800px"
+  />
+  
+  ```jsx
+  <Picture
+    src={localBird}
+    formats={['avif', 'webp']}
+    alt="Responsive bird image"
+    sizes="(max-width: 600px) 480px, 800px"
+  />
+  ```
+</div>
+
+<div class="note success">
+✅ <strong>Advanced responsiveness:</strong> The Picture component generates multiple image formats and sizes for optimal loading across devices.
+</div>
+
+## Using Raw HTML img Tags in MDX 🏷️
+
+You can also use standard HTML `img` tags. Remember to access the `.src` property for imported local images:
+
+<div class="image-container">
+  <span class="image-label">Raw HTML img with imported image:</span>
+  <img src={localDog.src} alt="A raw dog in MDX" width={localDog.width / 2} height={localDog.height / 2} />
+  
+  ```jsx
+  <img src={localDog.src} alt="A raw dog in MDX" width={localDog.width / 2} height={localDog.height / 2} />
+  ```
+</div>
+
+<div class="image-container">
+  <span class="image-label">Raw HTML img with public image:</span>
+  <img src="/public-cat.jpg" alt="A raw public cat in MDX" width="150" height="150" />
+  
+  ```jsx
+  <img src="/public-cat.jpg" alt="A raw public cat in MDX" width="150" height="150" />
+  ```
+</div>
+
+<div class="note warning">
+❌ <strong>No optimization:</strong> Raw HTML img tags don't get optimized, but you have full control over the HTML output.
+</div>
+
+## MDX vs Markdown Comparison
+
+<div class="comparison-table">
+
+| Feature | Markdown (.md) | MDX (.mdx) |
+|---------|---------------|------------|
+| **Image syntax** | Standard Markdown only | Markdown + JSX components |
+| **Astro components** | ❌ Not available | ✅ Full access |
+| **Imports** | ❌ No imports | ✅ Import images, components |
+| **Variables** | ❌ No variables | ✅ Use JavaScript variables |
+| **Conditional rendering** | ❌ Static only | ✅ Dynamic with JavaScript |
+| **Complex layouts** | ❌ Limited | ✅ Full JSX power |
+| **Processing speed** | ⚡ Faster | ⚡ Slightly slower |
+| **Learning curve** | 📈 Easier | 📈 Steeper |
+
+</div>
+
+## When to Use MDX for Images
+
+<div class="use-cases">
+  <div class="use-case">
+    <h3>✅ Great for MDX:</h3>
+    <ul>
+      <li>Content requiring responsive images</li>
+      <li>Dynamic image selection based on conditions</li>
+      <li>Complex image galleries or layouts</li>
+      <li>Images with custom styling or behavior</li>
+      <li>Integration with React/Vue components</li>
+    </ul>
+  </div>
+  
+  <div class="use-case">
+    <h3>📝 Stick with Markdown:</h3>
+    <ul>
+      <li>Simple blog posts or documentation</li>
+      <li>Content written by non-technical users</li>
+      <li>Quick image insertion without customization</li>
+      <li>Maximum simplicity and portability</li>
+      <li>Faster build times for large content sites</li>
+    </ul>
+  </div>
+</div>
+
+## Best Practices for MDX Images
+
+<div class="best-practices">
+  <h3>💡 Pro Tips:</h3>
+  <ul>
+    <li><strong>Import strategy:</strong> Import images in frontmatter for better organization</li>
+    <li><strong>Component consistency:</strong> Use Image/Picture components for better performance</li>
+    <li><strong>Fallback planning:</strong> Always provide meaningful alt text</li>
+    <li><strong>Performance monitoring:</strong> Test how components affect build times</li>
+    <li><strong>Content strategy:</strong> Reserve MDX for content that truly benefits from components</li>
+  </ul>
+</div>
+
+<style>
+.intro \{
+  background-color: #f0fdf4;
+  border: 1px solid #22c55e;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0 2rem 0;
+  color: #166534;
+\}
+
+.note \{
+  font-size: 0.875rem;
+  margin: 1rem 0;
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-weight: 500;
+\}
+
+.note.success \{
+  background-color: #dcfce7;
+  color: #166534;
+  border-left: 4px solid #22c55e;
+\}
+
+.note.warning \{
+  background-color: #fef2f2;
+  color: #dc2626;
+  border-left: 4px solid #ef4444;
+\}
+
+.comparison-table \{
+  margin: 2rem 0;
+  overflow-x: auto;
+\}
+
+.comparison-table table \{
+  width: 100%;
+  border-collapse: collapse;
+\}
+
+.comparison-table th,
+.comparison-table td \{
+  border: 1px solid #e2e8f0;
+  padding: 0.75rem;
+  text-align: left;
+\}
+
+.comparison-table th \{
+  background-color: #f8fafc;
+  font-weight: 600;
+\}
+
+.comparison-table tr:nth-child(even) \{
+  background-color: #f8fafc;
+\}
+
+.use-cases \{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.use-case \{
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: #f8fafc;
+\}
+
+.use-case h3 \{
+  margin-top: 0;
+  color: #475569;
+\}
+
+.use-case ul \{
+  list-style: disc;
+  padding-left: 1.5rem;
+\}
+
+.best-practices \{
+  background-color: #fefce8;
+  border: 1px solid #fde047;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+\}
+
+.best-practices h3 \{
+  color: #a16207;
+  margin-top: 0;
+\}
+
+.best-practices ul \{
+  list-style: disc;
+  padding-left: 1.5rem;
+\}
+
+.best-practices li \{
+  color: #a16207;
+  margin-bottom: 0.5rem;
+}
+</style> 

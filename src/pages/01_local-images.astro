@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image, Picture, getImage } from 'astro:assets';
+import localBird from '../assets/local-bird.png';
+import localDog from '../assets/local-dog.jpg';
+import ReactImageExample from '../components/ReactImageExample.jsx';
+
+// Using getImage() to create a URL for a custom use-case (e.g., social sharing image)
+const socialImage = await getImage({
+  src: localDog,
+  width: 1200,
+  height: 630,
+  format: 'jpeg',
+  quality: 75
+});
+---
+<BaseLayout title="Local Images (src/assets) - Optimized">
+  <p class="intro">
+    This page demonstrates Astro's <code>astro:assets</code> system with local images. All images here are automatically 
+    optimized, converted to modern formats, and configured for optimal performance and accessibility.
+  </p>
+
+  <h2>Using Astro's Image Component <span class="feature-badge">Recommended</span></h2>
+  <p>The Image component is the recommended way to use local images. Astro automatically optimizes them for size and format, and infers width/height to prevent CLS.</p>
+
+  <div class="image-container">
+    <span class="image-label">Basic Image usage:</span>
+    <Image src={localBird} alt="A small bird perched on a branch." />
+    <pre><code>{"<Image src={localBird} alt=\"A small bird perched on a branch.\" />"}</code></pre>
+    <p class="note success">✅ Automatically optimized, lazy loaded, and CLS-prevented</p>
+  </div>
+
+  <div class="image-container">
+    <span class="image-label">Image with specific width/height (overrides original):</span>
+    <Image src={localDog} alt="A happy dog playing in a field." width={300} height={200} />
+    <pre><code>{"<Image src={localDog} alt=\"A happy dog playing in a field.\" width={300} height={200} />"}</code></pre>
+    <p class="note success">✅ Resized and cropped to exact dimensions</p>
+  </div>
+
+  <div class="image-container">
+    <span class="image-label">Image with custom quality and format:</span>
+    <Image src={localBird} alt="A bird close up." quality={60} format="avif" />
+    <pre><code>{"<Image src={localBird} alt=\"A bird close up.\" quality={60} format=\"avif\" />"}</code></pre>
+    <p class="note success">✅ Converted to AVIF format with 60% quality</p>
+  </div>
+
+  <h2>Using Astro's Picture Component <span class="feature-badge">Responsive</span></h2>
+  <p>The Picture component generates multiple image formats and sizes for browsers to choose the most optimal one. Perfect for responsive designs and modern web standards.</p>
+
+  <div class="image-container">
+    <span class="image-label">Picture with multiple formats (AVIF, WebP, fallback JPEG):</span>
+    <Picture
+      src={localDog}
+      formats={['avif', 'webp']}
+      alt="A dog running through tall grass."
+      sizes="(max-width: 600px) 480px, 800px"
+    />
+    <pre><code>{`<Picture
+  src={localDog}
+  formats={['avif', 'webp']}
+  alt="A dog running through tall grass."
+  sizes="(max-width: 600px) 480px, 800px"
+/>`}</code></pre>
+    <p class="note success">✅ Multiple formats with fallback, responsive sizing</p>
+  </div>
+
+  <h2>Using HTML img with src/assets <span class="feature-badge">Not Optimized</span></h2>
+  <p>You can still use native img tags, but you need to access the image's src property after importing. Astro will NOT optimize these images, and you lose CLS prevention unless you manually add width and height.</p>
+
+  <div class="image-container">
+    <span class="image-label">Unoptimized img from src/assets (manual width/height recommended):</span>
+    <img src={localBird.src} alt="Another bird image (unoptimized)." width={localBird.width} height={localBird.height} loading="lazy" />
+    <pre><code>{"<img src={localBird.src} alt=\"Another bird image (unoptimized).\" width={localBird.width} height={localBird.height} loading=\"lazy\" />"}</code></pre>
+    <p class="note warning">❌ No optimization, but dimensions are preserved</p>
+  </div>
+
+  <h2>Generating Images with getImage() <span class="feature-badge">Advanced</span></h2>
+  <p>The getImage() function allows you to generate image URLs and metadata for use outside of direct HTML, like in API routes or for social sharing meta tags.</p>
+
+  <div class="image-container">
+    <span class="image-label">Generated social sharing image URL:</span>
+    <p class="url-display"><code>{socialImage.src}</code></p>
+    <img src={socialImage.src} alt="A generated social sharing image of a dog." />
+    <pre><code>{`// In frontmatter:
+const socialImage = await getImage({
+  src: localDog,
+  width: 1200,
+  height: 630,
+  format: 'jpeg',
+  quality: 75
+});
+
+// In template:
+<img src={socialImage.src} alt="..." />`}</code></pre>
+    <p class="note success">✅ Perfect for social media sharing images</p>
+  </div>
+
+  <h2>Using Images in UI Framework Components <span class="feature-badge">Integration</span></h2>
+  <p>Astro's Image and Picture components are Astro components and cannot be used directly inside React, Svelte, etc. Instead, pass the imported image's .src property to the framework component.</p>
+
+  <div class="image-container">
+    <span class="image-label">React component displaying a local image (using myImage.src):</span>
+    <ReactImageExample client:load />
+    <pre><code>{`// src/components/ReactImageExample.jsx
+import localBird from "../assets/local-bird.png";
+
+export default function ReactImageExample() {
+  return (
+    <img 
+      src={localBird.src} 
+      alt="Bird from React component" 
+      width={localBird.width} 
+      height={localBird.height} 
+    />
+  )
+}`}</code></pre>
+    <p class="note success">✅ Framework components access optimized images via .src</p>
+  </div>
+
+  <style>
+    .intro {
+      background-color: #dbeafe;
+      border: 1px solid #93c5fd;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      color: #1e40af;
+    }
+    .note {
+      font-size: 0.875rem;
+      margin: 0.75rem 0 0 0;
+      padding: 0.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .note.success {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+    .note.warning {
+      background-color: #fef2f2;
+      color: #dc2626;
+    }
+    .url-display {
+      background-color: #f1f5f9;
+      padding: 0.75rem;
+      border-radius: 6px;
+      word-break: break-all;
+      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+      border: 1px solid #e2e8f0;
+    }
+  </style>
+</BaseLayout> 
