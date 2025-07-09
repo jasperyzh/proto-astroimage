@@ -22,7 +22,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <div class="example-grid">
     <div class="example-card">
       <h3>
-        <a href="/01_local-images">Local Images (src/assets)</a>
+        <a href={`${import.meta.env.BASE_URL}01_local-images`}>Local Images (src/assets)</a>
         <span class="feature-badge">Optimized</span>
       </h3>
       <p>Explore Astro's <code>Image</code> and <code>Picture</code> components with local assets. See automatic optimization, format conversion, and responsive image generation.</p>
@@ -35,7 +35,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     <div class="example-card">
       <h3>
-        <a href="/02_remote-images">Remote Images</a>
+        <a href={`${import.meta.env.BASE_URL}02_remote-images`}>Remote Images</a>
         <span class="feature-badge">Comparison</span>
       </h3>
       <p>Compare optimized vs unoptimized remote images. Learn about domain authorization and security considerations for remote image processing.</p>
@@ -48,7 +48,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     <div class="example-card">
       <h3>
-        <a href="/03_markdown">Images in Markdown</a>
+        <a href={`${import.meta.env.BASE_URL}03_markdown`}>Images in Markdown</a>
         <span class="feature-badge">Simple</span>
       </h3>
       <p>Standard Markdown image syntax with Astro's automatic processing. Perfect for blog posts and documentation.</p>
@@ -61,7 +61,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     <div class="example-card">
       <h3>
-        <a href="/04_mdx-component">MDX Components</a>
+        <a href={`${import.meta.env.BASE_URL}04_mdx-component`}>MDX Components</a>
         <span class="feature-badge">Advanced</span>
       </h3>
       <p>Combine Markdown with Astro components for maximum flexibility. Use both syntax types in the same file.</p>
@@ -74,7 +74,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     <div class="example-card">
       <h3>
-        <a href="/05_collections">Content Collections</a>
+        <a href={`${import.meta.env.BASE_URL}05_collections`}>Content Collections</a>
         <span class="feature-badge">Structured</span>
       </h3>
       <p>Type-safe images in frontmatter with schema validation. Perfect for CMS-style content management.</p>
@@ -87,7 +87,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     <div class="example-card">
       <h3>
-        <a href="/06_obsidian-content">Obsidian Integration</a>
+        <a href={`${import.meta.env.BASE_URL}06_obsidian-content`}>Obsidian Integration</a>
         <span class="feature-badge">External</span>
       </h3>
       <p>Handle external markdown content and assets from tools like Obsidian. Demonstrates public/ directory usage.</p>

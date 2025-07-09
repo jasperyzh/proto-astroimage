@@ -10,7 +10,7 @@ const { title } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <style is:global>
@@ -167,18 +167,18 @@ const { title } = Astro.props;
       <div class="nav-container">
         <div class="nav-title">🖼️ Astro Image Playground</div>
         <div class="nav-links">
-          <a href="/">Home</a>
-          <a href="/01_local-images">Local Images</a>
-          <a href="/02_remote-images">Remote Images</a>
-          <a href="/03_markdown">Markdown</a>
-          <a href="/04_mdx-component">MDX</a>
-          <a href="/05_collections">Collections</a>
-          <a href="/06_obsidian-content">Obsidian</a>
+          <a href={import.meta.env.BASE_URL}>Home</a>
+          <a href={`${import.meta.env.BASE_URL}01_local-images`}>Local Images</a>
+          <a href={`${import.meta.env.BASE_URL}02_remote-images`}>Remote Images</a>
+          <a href={`${import.meta.env.BASE_URL}03_markdown`}>Markdown</a>
+          <a href={`${import.meta.env.BASE_URL}04_mdx-component`}>MDX</a>
+          <a href={`${import.meta.env.BASE_URL}05_collections`}>Collections</a>
+          <a href={`${import.meta.env.BASE_URL}06_obsidian-content`}>Obsidian</a>
         </div>
       </div>
       <h1>{title}</h1>
       <slot />
-      <a href="/" class="back-link">← Back to Home</a>
+      <a href={import.meta.env.BASE_URL} class="back-link">← Back to Home</a>
     </main>
   </body>
 </html> 
