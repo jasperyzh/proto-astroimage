@@ -9,6 +9,10 @@ const authorizedRemoteDomain = "images.unsplash.com";
 
 // https://astro.build/config
 export default defineConfig({
+  // Configure for GitHub Pages deployment
+  site: 'https://jasperyzh.github.io',
+  base: '/proto-astroimage',
+  
   integrations: [react(), svelte(), mdx()],
   image: {
     // Specify domains from which remote images can be optimized
