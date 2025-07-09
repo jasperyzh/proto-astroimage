@@ -11,7 +11,7 @@ const authorizedRemoteDomain = "images.unsplash.com";
 export default defineConfig({
   // Configure for GitHub Pages deployment
   site: 'https://jasperyzh.github.io',
-  base: '/proto-astroimage',
+  base: '/proto-astroimage/',
   
   integrations: [react(), svelte(), mdx()],
   image: {
